@@ -108,39 +108,39 @@ public class IOPresenter extends Presenter {
 		if (!destDirectoryFolder.exists()) {
 			destDirectoryFolder.mkdir();
 		}
-		ZipInputStream zis= new ZipInputStream(new FileInputStream(file));
-		ZipEntry zipEntry = zis.getNextEntry();
-		while(zipEntry !=null) {
-                    String filePath = destDirectory + File.separator + zipEntry.getName();
-                    main.logLabel.setText("Descomprimint "+zipEntry.getName()); main.revalidate();
-                    if(!zipEntry.isDirectory()) {
-                            FileOutputStream fos = new FileOutputStream(filePath);
-                            byte[] buffer = new byte[1024]; 
-                            int len;
-                            main.jProgressBar1.setMaximum((int)zipEntry.getSize());
-                            main.revalidate();
-                            int progress=0;
-                            while ((len = zis.read(buffer)) >0){
+                try (ZipInputStream zis = new ZipInputStream(new FileInputStream(file))) {
+                    ZipEntry zipEntry = zis.getNextEntry();
+                    while(zipEntry !=null) {
+                        String filePath = destDirectory + File.separator + zipEntry.getName();
+                        main.logLabel.setText("Descomprimint "+zipEntry.getName()); main.revalidate();
+                        if(!zipEntry.isDirectory()) {
+                            try (FileOutputStream fos = new FileOutputStream(filePath)) {
+                                byte[] buffer = new byte[1024];
+                                int len;
+                                main.jProgressBar1.setMaximum((int)zipEntry.getSize());
+                                main.revalidate();
+                                int progress=0;
+                                while ((len = zis.read(buffer)) >0){
                                     fos.write(buffer,0,len);
                                     main.jProgressBar1.setValue(progress+=1024);
                                     main.revalidate();
-                                    
+                                }
                             }
-                            fos.close();
-                    }
-                    else {
-                        File dir = new File(filePath);
-                        if (!dir.exists()) {
-                            dir.mkdir();
                         }
+                        else {
+                            File dir = new File(filePath);
+                            if (!dir.exists()) {
+                                dir.mkdir();
+                            }
+                        }
+                        zis.closeEntry();
+                        zipEntry = zis.getNextEntry();
                     }
                     zis.closeEntry();
-                    zipEntry = zis.getNextEntry();
-		}
-		zis.closeEntry();
-		zis.close();
+                }
 		main.exceptionLabel.setText("Descompressió completada per: " +file.getName()); main.revalidate();
             }
+
             case _7ZIP -> {
                throw new  UnsupportedOperationException("Not supported yet.");
             }

@@ -14,6 +14,9 @@ public abstract interface IHttp {
 
     /**
      * Fer petició asíncrona i retornar el resultat com a String
+     * @param uri
+     * @param timeoutMinutes
+     * @return 
      */
     public CompletableFuture<String> asyncStringHttpRequest(String uri, int timeoutMinutes);
 }

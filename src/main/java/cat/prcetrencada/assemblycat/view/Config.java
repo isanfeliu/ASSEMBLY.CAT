@@ -12,7 +12,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.concurrent.ExecutionException;
 import javax.swing.GroupLayout;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -176,7 +176,7 @@ public class Config extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(getParent(), "<html>Error al guardar l'arxiu de la configuració<br></br>Siusplau, torna-ho a intentar.<br></br>"+ex.getMessage(),"Error" ,0);
         } catch (NullPointerException ex) {
             JOptionPane.showMessageDialog(getParent(), "<html>No s'ha guardat el contingut del fitxer.<br></br>Totes les rutes/directoris han d'estar definides.","Avís" ,2);
-        }catch (Exception ex) {
+        }catch (InterruptedException | ExecutionException ex) {
             JOptionPane.showMessageDialog(getParent(), "<html>Error al guardar la configuració.<br></br>Siusplau, torna-ho a intentar.<br></br>"+ex.getMessage(),"Error" ,0);
         }
         

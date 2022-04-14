@@ -4,15 +4,8 @@
  */
 package cat.prcetrencada.assemblycat.view;
 
-import cat.prcetrencada.assemblycat.model.entitieslayer.Platform;
-import cat.prcetrencada.assemblycat.model.enums.PersistanceTech;
-import cat.prcetrencada.assemblycat.model.filter.ArchiveFilter;
-import cat.prcetrencada.assemblycat.presenter.fetch.DataFetcherPresenter;
+import cat.prcetrencada.assemblycat.presenter.Presenter;
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
-import java.text.ParseException;
-import java.util.ArrayList;
 import javax.swing.*;
 /**
  * MainFrame Frame
@@ -136,22 +129,6 @@ public class MainFrame extends JFrame{
     }
     
     private void formWindowClosing(java.awt.event.WindowEvent evt){                                  
-        try {
-            ArrayList<Platform> platformList=DataFetcherPresenter.getInstance().fetchConfigFileData(PersistanceTech.JSON);
-            if (platformList!=null){
-                for (Platform platform : platformList) {
-                    File file  = new File(platform.getDirectory());
-                    File[] listFiles = file.listFiles(new ArchiveFilter());
-                    if (listFiles!=null) {
-                        for (File listFile : listFiles) {
-                        listFile.deleteOnExit();
-                        }  
-                    }
-
-                }
-            }
-        } catch (IOException | ParseException ex) {
-            JOptionPane.showMessageDialog(null, "No s'ha pogut netejar els fitxers.");
-        }
+            Presenter.cleanDownloads();
     }
 }

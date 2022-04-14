@@ -169,20 +169,21 @@ public class UpdatePresenter extends IOPresenter{
                 }
                 int downloadLength= con.getContentLength();
                 main.jProgressBar1.setMaximum(downloadLength);
-                BufferedInputStream in= new BufferedInputStream(con.getInputStream()); 
-                BufferedOutputStream bout=new BufferedOutputStream(fos,con.getContentLength());
-                byte[] fileData = new byte[downloadLength];
-                double downloadedProgress=0.0;
-                int read;
-                //Escriure dades
-                main.logLabel.setText("Descarregant "+game.getName()+".");
-                while ((read=in.read(fileData,0, downloadLength))>=0 ) {
-                    bout.write(fileData,0,read);
-                    downloadedProgress+=read;
-                    main.jProgressBar1.setValue((int)downloadedProgress);
-                    main.revalidate();
+                BufferedOutputStream bout;
+                try (BufferedInputStream in = new BufferedInputStream(con.getInputStream())) {
+                    bout = new BufferedOutputStream(fos,con.getContentLength());
+                    byte[] fileData = new byte[downloadLength];
+                    double downloadedProgress=0.0;
+                    int read;
+                    //Escriure dades
+                    main.logLabel.setText("Descarregant "+game.getName()+".");
+                    while ((read=in.read(fileData,0, downloadLength))>=0 ) {
+                        bout.write(fileData,0,read);
+                        downloadedProgress+=read;
+                        main.jProgressBar1.setValue((int)downloadedProgress);
+                        main.revalidate();
+                    }
                 }
-                in.close();
                 bout.flush();
                 bout.close();
                 gameFetchedFiles.add(outFile);
