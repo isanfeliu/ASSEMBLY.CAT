@@ -124,9 +124,9 @@ public class Config extends javax.swing.JPanel {
         });
 
         exitButton.setText("Desa i surt");
-        exitButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                exitButtonMouseReleased(evt);
+        exitButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exitButtonActionPerformed(evt);
             }
         });
 
@@ -190,7 +190,7 @@ public class Config extends javax.swing.JPanel {
         deletePlatform(model);
     }//GEN-LAST:event_removeRowButtonMouseReleased
 
-    private void exitButtonMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exitButtonMouseReleased
+    private void exitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitButtonActionPerformed
         PersistanceTech tech = PersistanceTech.JSON;
         try {
             saveConfiguration(jTable1,tech);
@@ -202,7 +202,7 @@ public class Config extends javax.swing.JPanel {
         }catch (Exception ex) {
             JOptionPane.showMessageDialog(this.getParent(), "<html>Error al desar la configuració.<br></br>Siusplau, torna-ho a intentar.<br></br>"+ex.getMessage(),"Error" ,0);
         }
-    }//GEN-LAST:event_exitButtonMouseReleased
+    }//GEN-LAST:event_exitButtonActionPerformed
 
     // Variables declaration    
     public GroupLayout panelGroupLayout;

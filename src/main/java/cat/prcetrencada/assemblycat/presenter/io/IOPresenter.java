@@ -14,6 +14,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -42,8 +43,11 @@ public class IOPresenter extends Presenter {
             StringBuilder sb = new StringBuilder(System.getProperty("user.dir"));
             sb.append("/cownloader.conf");
             File configFile = new File(sb.toString());
+            configFile.setReadable(true, false);
+            configFile.setExecutable(true, false);
+            configFile.setWritable(true, false);
             configFile.createNewFile(); 
-            //Files.setAttribute(configFile.getPath(), "dos:hidden", true);
+            Files.setAttribute(configFile.toPath(), "dos:hidden", true);
   }
     
     /**
@@ -77,8 +81,27 @@ public class IOPresenter extends Presenter {
      */
     public static FileWriter getFileWriter(StringBuilder path) throws IOException{
         File file = new File(path.toString());
+        unHideFile(file);
         FileWriter fw = new FileWriter(file);
         return fw;
+    }
+    
+    /**
+     * Mostra el fitxer per al sistema
+     * @param file
+     * @throws IOException 
+     */
+    public static void unHideFile(File file) throws IOException{
+        Files.setAttribute(file.toPath(), "dos:hidden", false);
+    }
+    
+    /**
+     * Oculta el fitxer per al sistema
+     * @param file
+     * @throws IOException 
+     */
+    public static void hideFile(File file) throws IOException{
+        Files.setAttribute(file.toPath(), "dos:hidden", true);
     }
     
     /**
