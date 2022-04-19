@@ -29,7 +29,7 @@ public class Start extends JPanel {
             try {
                 createConfigFile();
             } catch (IOException ex) {
-                JOptionPane.showMessageDialog(null, "Error al guardar la configuració, siusplau, torna-ho a intentar. "+ex.getMessage(), "ERROR", 0);
+                JOptionPane.showMessageDialog(null, "Error al desar la configuració, siusplau, torna-ho a intentar. "+ex.getMessage(), "ERROR", 0);
             }
             startButton.setVisible(false);
         }else{

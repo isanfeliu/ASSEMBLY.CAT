@@ -20,7 +20,7 @@ import org.json.JSONObject;
  * @author @Narx221 Projecte 'Ce' Trencada
  */
 public class ConfigPanelPresenter extends IOPresenter{
-    
+
     /**
      * Agrega una nova fila.
      * @param model
@@ -58,17 +58,17 @@ public class ConfigPanelPresenter extends IOPresenter{
             
             //Iterar columnes
             for (int j = 0; j < dt.getColumnCount(); j++) {
-                switch (dt.getColumnName(j)) {
-                    case "Nom" -> {
+                switch (j) {
+                    case 0 -> {
                         String valueAt = (String) dt.getValueAt(i, j);
                         if (valueAt == null || valueAt.isEmpty()){
                             valueAt="Plataforma "+i;
                         }
                         platform.put("name", valueAt);
                     }
-                    case "Ruta" -> {
-                        Object valueAt = dt.getValueAt(i, j);
-                        if (valueAt == null){
+                    case 1 -> {
+                        String valueAt = (String) dt.getValueAt(i, j);
+                        if (valueAt == null || valueAt.isBlank()){
                             throw new NullPointerException("Directory is null");
                         }
                         platform.put("directory", valueAt.toString());

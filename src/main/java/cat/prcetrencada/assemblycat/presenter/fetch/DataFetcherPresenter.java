@@ -25,7 +25,7 @@ import org.json.JSONObject;
  * @author @Narx221 Projecte 'Ce' Trencada
  */
 public class DataFetcherPresenter extends Presenter{
-    // Singleton
+    //SINGLETON PATTERN
     private static DataFetcherPresenter dfp;
     private DataFetcherPresenter(){}
     public static DataFetcherPresenter getInstance(){
@@ -34,6 +34,7 @@ public class DataFetcherPresenter extends Presenter{
         }
         return dfp;
     }
+    
     /**
      * <pre>
      * Retorna un Hashmap amb 2 keys.

@@ -6,8 +6,8 @@ package cat.prcetrencada.assemblycat.view;
 
 import cat.prcetrencada.assemblycat.model.entitieslayer.Platform;
 import cat.prcetrencada.assemblycat.model.enums.PersistanceTech;
-import static cat.prcetrencada.assemblycat.presenter.io.ConfigPanelPresenter.*;
 import cat.prcetrencada.assemblycat.presenter.fetch.DataFetcherPresenter;
+import static cat.prcetrencada.assemblycat.presenter.io.ConfigPanelPresenter.*;
 import java.awt.*;
 import java.io.IOException;
 import java.text.ParseException;
@@ -46,12 +46,12 @@ public class Config extends javax.swing.JPanel {
             resetModel(jTable1);
             model = (DefaultTableModel) jTable1.getModel();
             setSteamDefaultPath(model);
-            JOptionPane.showMessageDialog(this.getParent(), "<html>Hi ha hagut un error al llegir l'arxiu de configuració. Retornant als valors per defecte.<br>" + ex.getMessage(),"Error" ,0);
+            JOptionPane.showMessageDialog(getParent(), "<html>Hi ha hagut un error al llegir l'arxiu de configuració. Retornant als valors per defecte.<br>" + ex.getMessage(),"Error" ,0);
         }catch (ParseException ex) {
             resetModel(jTable1);
             model = (DefaultTableModel) jTable1.getModel();
             setSteamDefaultPath(model);
-            JOptionPane.showMessageDialog(this.getParent(), "<html>Hi ha hagut un error desconegut. Retornant als valors per defecte.<br>"+ ex.getMessage(),"Error" ,0);
+            JOptionPane.showMessageDialog(getParent(), "<html>Hi ha hagut un error desconegut. Retornant als valors per defecte.<br>"+ ex.getMessage(),"Error" ,0);
         } 
         
         jTable1.getColumnModel().getColumn(0).setMaxWidth(100);
@@ -173,11 +173,11 @@ public class Config extends javax.swing.JPanel {
             Select targetPanel = new Select();
             redirect(parent, targetPanel);
         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(getParent(), "<html>Error al guardar l'arxiu de la configuració<br></br>Siusplau, torna-ho a intentar.<br></br>"+ex.getMessage(),"Error" ,0);
+            JOptionPane.showMessageDialog(getParent(), "<html>Error al desar l'arxiu de la configuració<br></br>Siusplau, torna-ho a intentar.<br></br>"+ex.getMessage(),"Error" ,0);
         } catch (NullPointerException ex) {
-            JOptionPane.showMessageDialog(getParent(), "<html>No s'ha guardat el contingut del fitxer.<br></br>Totes les rutes/directoris han d'estar definides.","Avís" ,2);
+            JOptionPane.showMessageDialog(getParent(), "<html>No s'ha desat el contingut del fitxer.<br></br>Totes les rutes/directoris han d'estar definides.","Avís" ,2);
         }catch (InterruptedException | ExecutionException ex) {
-            JOptionPane.showMessageDialog(getParent(), "<html>Error al guardar la configuració.<br></br>Siusplau, torna-ho a intentar.<br></br>"+ex.getMessage(),"Error" ,0);
+            JOptionPane.showMessageDialog(getParent(), "<html>Error al desar la configuració.<br></br>Siusplau, torna-ho a intentar.<br></br>"+ex.getMessage(),"Error" ,0);
         }
         
     }//GEN-LAST:event_updateButtonActionPerformed
@@ -196,11 +196,11 @@ public class Config extends javax.swing.JPanel {
             saveConfiguration(jTable1,tech);
             exit();
         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(this.getParent(), "<html>Error al guardar l'arxiu de la configuració<br></br>Siusplau, torna-ho a intentar.<br></br>"+ex.getMessage(),"Error" ,0);
+            JOptionPane.showMessageDialog(this.getParent(), "<html>Error al desat l'arxiu de la configuració<br></br>Siusplau, torna-ho a intentar.<br></br>"+ex.getMessage(),"Error" ,0);
         } catch (NullPointerException ex) {
-            JOptionPane.showMessageDialog(this.getParent(), "<html>No s'ha guardat el contingut del fitxer.<br></br>Totes les rutes/directoris han d'estar definides.","Avís" ,2);
+            JOptionPane.showMessageDialog(this.getParent(), "<html>No s'ha desat el contingut del fitxer.<br></br>Tots els directoris han d'estar definits.","Avís" ,2);
         }catch (Exception ex) {
-            JOptionPane.showMessageDialog(this.getParent(), "<html>Error al guardar la configuració.<br></br>Siusplau, torna-ho a intentar.<br></br>"+ex.getMessage(),"Error" ,0);
+            JOptionPane.showMessageDialog(this.getParent(), "<html>Error al desar la configuració.<br></br>Siusplau, torna-ho a intentar.<br></br>"+ex.getMessage(),"Error" ,0);
         }
     }//GEN-LAST:event_exitButtonMouseReleased
 

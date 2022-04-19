@@ -28,10 +28,7 @@ import javax.swing.JOptionPane;
 public class UpdatePresenter extends IOPresenter{
     //SINGLETON PATTERN
     private static UpdatePresenter up;
-    private ArrayList<Game> selectedGames2Download;
-    private Update main;
-    private final ArrayList<File> downloadResultFiles= new ArrayList<>();
-    private UpdatePresenter(){}
+        private UpdatePresenter(){}
     public static UpdatePresenter getInstance(){
         if(up==null){
             up= new UpdatePresenter();
@@ -39,6 +36,9 @@ public class UpdatePresenter extends IOPresenter{
         return up;
     }
     
+    private ArrayList<Game> selectedGames2Download;
+    private Update main;
+    private final ArrayList<File> downloadResultFiles= new ArrayList<>();
     /**
      * <pre>
      * Mètode void que actualitza els jocs seleccionats per actualitzar.

@@ -37,7 +37,7 @@ public class MainFrame extends JFrame{
         Dimension leftPanelDimension = new Dimension(200, 400);
           
         //JFrame Properties
-        setTitle("Cownloader -  El teu actualitzador de videojocs en català");
+        setTitle("CATÇEMBLA -  El teu actualitzador de videojocs en català");
         setIconImage(new ImageIcon(getClass().getResource("/icon.jpg")).getImage());
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLocationByPlatform(true);
