@@ -39,6 +39,7 @@ public class UpdatePresenter extends IOPresenter{
     private ArrayList<Game> selectedGames2Download;
     private Update main;
     private final ArrayList<File> downloadResultFiles= new ArrayList<>();
+    private static final String API_KEY= System.getenv("ASSEMBLY_CAT_GD");
     /**
      * <pre>
      * Mètode void que actualitza els jocs seleccionats per actualitzar.
@@ -136,7 +137,6 @@ public class UpdatePresenter extends IOPresenter{
                 //convertir link de drive a link de descàrrega directa! :D
                 //Utilitzant la API de drive.
                 URL url;
-                final String API_KEY= "AIzaSyBwe8L2bC5JKc3LaeMTh_rw_lwUWcOBYpM";
                 String directDownloadLink= game.getDownloadLink();
                 if(directDownloadLink.contains("drive.google")){
                     StringBuilder driveApiRequestBuilder= new StringBuilder("https://www.googleapis.com/drive/v3/files/");
