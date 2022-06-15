@@ -9,6 +9,8 @@ import cat.prcetrencada.assemblycat.model.action.DownloadAction;
 import cat.prcetrencada.assemblycat.view.Update;
 import java.awt.Component;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.IntStream;
 import javax.swing.Action;
 import javax.swing.ActionMap;
 import javax.swing.JCheckBox;
@@ -16,6 +18,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JViewport;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 /**
  * Presenter del Panell de Selecció
@@ -46,31 +50,28 @@ public class SelectionPresenter extends Presenter{
      * Prepara el diàleg de Update amb la llista de jocs seleccionats a descarregar.
      * @param gamesList
      * @param isAllCheckBoxSelected
-     * @param thisMainPanel
+     * @param main
      * @return 
      */
-    public static Update buildTargetUpdateFrame(ArrayList<Game> gamesList, Boolean isAllCheckBoxSelected,JPanel thisMainPanel){
-        Update updateFrame=null;        
-        JPanel selectionPanel = (JPanel)((JViewport)((JScrollPane)thisMainPanel.getComponent(1)).getComponent(0) ).getComponent(0);
-        thisMainPanel.getComponentAt(0,0);
-        if(isAllCheckBoxSelected){
-            updateFrame = new Update(gamesList);
-        }else{
-            gamesList.clear();
-            for (Component component : selectionPanel.getComponents()) {
-                JCheckBox checkbox =(JCheckBox) component;
-                if(checkbox.isSelected()){
-                    Action action = checkbox.getActionMap().get(checkbox.getActionCommand());
-                    Game game = (Game) action.getValue("game");
-                    gamesList.add(game);
+    public static Update buildTargetUpdateFrame(ArrayList<Game> gamesList, Boolean isAllCheckBoxSelected, TableModel model){
+        Update updateFrame=null;
+        ArrayList<Game> games = new ArrayList<Game>();
+        if(!isAllCheckBoxSelected){
+            for (int i = 0; i < gamesList.size(); i++) {
+                Boolean isSelected = (Boolean)model.getValueAt(i, 2);
+                if (isSelected==null || isSelected==false) {
+                    continue;
                 }
+                Game game = gamesList.get(i);
+                games.add(game);
             }
-            if (gamesList.isEmpty()) {
-                JOptionPane.showMessageDialog(thisMainPanel.getParent(),"No heu seleccionat cap joc a actualitzar", "Avís",1);
-                return updateFrame;
+            if (games.isEmpty()) {
+                return null;
             }
-             updateFrame = new Update(gamesList);
+        }else{
+            games=gamesList;
         }
-    return updateFrame;
+        updateFrame = new Update(games);
+        return updateFrame;
     }
 }

@@ -17,9 +17,6 @@ import java.util.concurrent.ExecutionException;
 import static cat.prcetrencada.assemblycat.presenter.io.IOPresenter.*;
 import java.text.ParseException;
 import java.util.List;
-import java.util.function.Consumer;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

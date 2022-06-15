@@ -74,6 +74,7 @@ public class UpdatePresenter extends IOPresenter{
             }
         }
         JOptionPane.showMessageDialog(main.getParent(), "Totes les actualitzacions instal·lades i aplicades", "OK", 1);     
+        main.logLabel.setText("");
     }
     
     /**
@@ -137,6 +138,7 @@ public class UpdatePresenter extends IOPresenter{
                 //convertir link de drive a link de descàrrega directa! :D
                 //Utilitzant la API de drive.
                 URL url;
+                System.getenv("ASSEMBLY_CAT_GD");
                 String directDownloadLink= game.getDownloadLink();
                 if(directDownloadLink.contains("drive.google")){
                     StringBuilder driveApiRequestBuilder= new StringBuilder("https://www.googleapis.com/drive/v3/files/");

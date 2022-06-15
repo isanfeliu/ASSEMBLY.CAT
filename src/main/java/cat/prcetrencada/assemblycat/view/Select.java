@@ -9,13 +9,14 @@ import cat.prcetrencada.assemblycat.model.enums.PersistanceTech;
 import static cat.prcetrencada.assemblycat.presenter.Presenter.redirect;
 import static cat.prcetrencada.assemblycat.presenter.SelectionPresenter.*;
 import cat.prcetrencada.assemblycat.presenter.fetch.DataFetcherPresenter;
-import java.awt.Component;
 import java.awt.GridLayout;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
-import javax.swing.JCheckBox;
+import java.util.stream.IntStream;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 /**
  * Panell de Selecció de jocs a actualitzar
@@ -24,11 +25,37 @@ import javax.swing.JCheckBox;
 public class Select extends javax.swing.JPanel {
     public Select() throws IOException, InterruptedException, ExecutionException {
         initComponents();
+        
         HashMap fetchMatchingData = DataFetcherPresenter.getInstance().fetchMatchingData(PersistanceTech.JSON);
         gamesList= (ArrayList)fetchMatchingData.get("gamesInstalledList");
-        selectionPanelLayout.setColumns(1);
-        selectionPanelLayout.setRows(gamesList.size());
-        setGameCheckBoxActionMap(gamesList, selectionPanel);
+        
+        //Set raw model fields
+        Object[][] rawModel = new Object[gamesList.size()][3];
+        IntStream.range(0, gamesList.size()).forEach(s->{
+                    Game game =(Game)gamesList.get(s);
+                    rawModel[s][0]=game.getName();
+                    rawModel[s][1]=game.getDirectory();
+                    rawModel[s][2]=false;
+        });
+
+        //Set DefaultTableModel
+        javax.swing.table.DefaultTableModel tableModel = new javax.swing.table.DefaultTableModel(
+                rawModel,
+                new String [] {
+                    "Joc", "Directori", "Actualitzar"
+                }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
+            };
+            
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        };
+        gameUpdateTable.setModel(tableModel);
+        this.tableModel=tableModel;
+
     }
 
     /**
@@ -43,6 +70,8 @@ public class Select extends javax.swing.JPanel {
         introLabel = new javax.swing.JLabel();
         gamePanel = new javax.swing.JScrollPane();
         selectionPanel = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        gameUpdateTable = new javax.swing.JTable();
         allCheckBox = new javax.swing.JCheckBox();
         updateButton = new javax.swing.JButton();
 
@@ -55,6 +84,12 @@ public class Select extends javax.swing.JPanel {
 
         selectionPanel.setLayout(new java.awt.GridLayout(1, 0));
         selectionPanelLayout=(GridLayout)selectionPanel.getLayout();
+
+        gameUpdateTable.setModel(new javax.swing.table.DefaultTableModel());
+        jScrollPane1.setViewportView(gameUpdateTable);
+
+        selectionPanel.add(jScrollPane1);
+
         gamePanel.setViewportView(selectionPanel);
 
         allCheckBox.setText("   Tots");
@@ -103,7 +138,9 @@ public class Select extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
-        Update updateFrame = buildTargetUpdateFrame(gamesList, allCheckBox.isSelected(),this);
+        TableModel model = this.gameUpdateTable.getModel();
+        
+        Update updateFrame = buildTargetUpdateFrame(gamesList, allCheckBox.isSelected(),model);
         if (updateFrame!=null) {
            redirect(this.getParent(), updateFrame);
         }
@@ -111,22 +148,23 @@ public class Select extends javax.swing.JPanel {
 
     private void allCheckBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_allCheckBoxItemStateChanged
         if (allCheckBox.isSelected()) {
-            for (Component component : selectionPanel.getComponents()) {
-                 JCheckBox checkbox= (JCheckBox)component;
-                 checkbox.setSelected(true);
-            }
+            IntStream.range(0, gameUpdateTable.getRowCount()).forEach(s->{
+                tableModel.setValueAt(true, s, 2);
+            });
         }else{
-            for (Component component : selectionPanel.getComponents()) {
-                 JCheckBox checkbox= (JCheckBox)component;
-                 checkbox.setSelected(false);
-            }
+            IntStream.range(0, gameUpdateTable.getRowCount()).forEach(s->{
+                tableModel.setValueAt(false, s, 2);
+            });
         }
     }//GEN-LAST:event_allCheckBoxItemStateChanged
     private GridLayout selectionPanelLayout;
+    public DefaultTableModel tableModel;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox allCheckBox;
     private javax.swing.JScrollPane gamePanel;
+    public javax.swing.JTable gameUpdateTable;
     private javax.swing.JLabel introLabel;
+    private javax.swing.JScrollPane jScrollPane1;
     private ArrayList<Game> gamesList;
     private javax.swing.JPanel selectionPanel;
     private javax.swing.JButton updateButton;

@@ -29,6 +29,11 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.3.2</version>
                 <configuration>
+                    <archive>
+                        <manifest>
+                             <mainClass>cat.prcetrencada.assemblycat.view.MainFrame</mainClass>
+                        </manifest>
+                    </archive>
                     <debug>false</debug>
                 </configuration>
             </plugin>

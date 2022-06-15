@@ -81,7 +81,7 @@ public class Update extends javax.swing.JPanel implements Runnable {
             }
         });
 
-        logLabel.setText("log");
+        logLabel.setText("");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
