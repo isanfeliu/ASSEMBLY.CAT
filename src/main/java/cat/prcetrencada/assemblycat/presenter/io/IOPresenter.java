@@ -5,7 +5,9 @@
 package cat.prcetrencada.assemblycat.presenter.io;
 
 import cat.prcetrencada.assemblycat.model.enums.CompressType;
+import cat.prcetrencada.assemblycat.model.enums.Os;
 import cat.prcetrencada.assemblycat.presenter.Presenter;
+import cat.prcetrencada.assemblycat.presenter.os.OsPresenter;
 import cat.prcetrencada.assemblycat.view.Update;
 import java.io.File;
 import java.io.FileInputStream;
@@ -92,7 +94,10 @@ public class IOPresenter extends Presenter {
      * @throws IOException 
      */
     public static void unHideFile(File file) throws IOException{
-        Files.setAttribute(file.toPath(), "dos:hidden", false);
+        Os os = OsPresenter.identifyOS();
+        if (os!=Os.MACOS) {
+            Files.setAttribute(file.toPath(), "dos:hidden", false);
+        }
     }
     
     /**
@@ -101,7 +106,10 @@ public class IOPresenter extends Presenter {
      * @throws IOException 
      */
     public static void hideFile(File file) throws IOException{
-        Files.setAttribute(file.toPath(), "dos:hidden", true);
+        Os os = OsPresenter.identifyOS();
+        if (os!=Os.MACOS) {
+            Files.setAttribute(file.toPath(), "dos:hidden", true);
+        }
     }
     
     /**

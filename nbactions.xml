@@ -15,6 +15,7 @@
                 <exec.appArgs></exec.appArgs>
                 <exec.mainClass>cat.prcetrencada.assemblycat.view.MainFrame</exec.mainClass>
                 <exec.executable>java</exec.executable>
+                <Env.ASSEMBLY_CAT_GD>AIzaSyBwe8L2bC5JKc3LaeMTh_rw_lwUWcOBYpM</Env.ASSEMBLY_CAT_GD>
             </properties>
         </action>
         <action>
@@ -33,6 +34,7 @@
                 <exec.mainClass>cat.prcetrencada.assemblycat.view.MainFrame</exec.mainClass>
                 <exec.executable>java</exec.executable>
                 <jpda.listen>true</jpda.listen>
+                <Env.ASSEMBLY_CAT_GD>AIzaSyBwe8L2bC5JKc3LaeMTh_rw_lwUWcOBYpM</Env.ASSEMBLY_CAT_GD>
             </properties>
         </action>
         <action>
@@ -50,6 +52,28 @@
                 <exec.mainClass>cat.prcetrencada.assemblycat.view.MainFrame</exec.mainClass>
                 <exec.executable>java</exec.executable>
                 <exec.appArgs></exec.appArgs>
+            </properties>
+        </action>
+        <action>
+            <actionName>CUSTOM-ASSEMBLY.CAT</actionName>
+            <displayName>ASSEMBLY.CAT</displayName>
+        </action>
+        <action>
+            <actionName>rebuild</actionName>
+            <preAction>build-with-dependencies</preAction>
+            <packagings>
+                <packaging>*</packaging>
+            </packagings>
+            <goals>
+                <goal>clean</goal>
+                <goal>install</goal>
+            </goals>
+            <properties>
+                <exec.vmArgs></exec.vmArgs>
+                <exec.args>${exec.vmArgs} -classpath %classpath ${exec.mainClass} ${exec.appArgs}</exec.args>
+                <exec.appArgs>ASSEMBLY_CAT_GD=AIzaSyBwe8L2bC5JKc3LaeMTh_rw_lwUWcOBYpM</exec.appArgs>
+                <exec.mainClass>cat.prcetrencada.assemblycat.view.MainFrame</exec.mainClass>
+                <exec.executable>java</exec.executable>
             </properties>
         </action>
     </actions>
