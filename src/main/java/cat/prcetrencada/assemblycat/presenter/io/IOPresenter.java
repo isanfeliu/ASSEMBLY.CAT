@@ -16,6 +16,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -139,7 +140,9 @@ public class IOPresenter extends Presenter {
 		if (!destDirectoryFolder.exists()) {
 			destDirectoryFolder.mkdir();
 		}
-                try (ZipInputStream zis = new ZipInputStream(new FileInputStream(file))) {
+                //Descomprimir ZIP
+                Charset CP866 = Charset.forName("CP866");
+                try (ZipInputStream zis = new ZipInputStream(new FileInputStream(file),CP866)) {
                     ZipEntry zipEntry = zis.getNextEntry();
                     while(zipEntry !=null) {
                         String filePath = destDirectory + File.separator + zipEntry.getName();
@@ -170,6 +173,7 @@ public class IOPresenter extends Presenter {
                     zis.closeEntry();
                 }
 		main.exceptionLabel.setText("Descompressió completada per: " +file.getName()); main.revalidate();
+                
             }
 
             case _7ZIP -> {

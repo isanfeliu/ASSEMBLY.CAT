@@ -101,7 +101,7 @@
           <Font name="Segoe UI" size="14" style="0"/>
         </Property>
         <Property name="horizontalAlignment" type="int" value="2"/>
-        <Property name="text" type="java.lang.String" value="&lt;html&gt;Amb aquesta aplicaci&#xf3;, podr&#xe0;s actualitzar autom&#xe0;ticament els jocs de plataformes com Steam o Epic de &apos;Ce&apos; Trencada comunitat  i fins i tot afegir noves plataformes. &lt;br&gt;Tamb&#xe9; podr&#xe0;s descarregar qualsevol traducci&#xf3; de &apos;Ce&apos; trencada comunitat si configures un directori de jocs i a dins hi tens una carpeta amb exactament el mateix nom del joc que a la llista."/>
+        <Property name="text" type="java.lang.String" value="&lt;html&gt;Amb aquesta aplicaci&#xf3;, podr&#xe0;s actualitzar autom&#xe0;ticament els jocs de plataformes com Steam o Epic de &lt;b&gt;&lt;i&gt;&apos;Ce&apos; Trencada Comunitat&lt;/i&gt;&lt;/b&gt;  i fins i tot afegir noves plataformes. &lt;br&gt;Tamb&#xe9; podr&#xe0;s descarregar qualsevol traducci&#xf3; de &apos;Ce&apos; trencada comunitat si configures un directori de jocs i a dins hi tens una carpeta amb exactament el mateix nom del joc que a la llista."/>
         <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
           <Connection code="null" type="code"/>
         </Property>
@@ -113,7 +113,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Segoe UI" size="14" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Abans que res, necessitem que configuris les plataformes que vols actualitzar."/>
+        <Property name="text" type="java.lang.String" value="Abans que res, cal que configuris les plataformes que vols actualitzar."/>
         <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
           <Connection code="null" type="code"/>
         </Property>

@@ -92,12 +92,12 @@ public class Start extends JPanel {
 
         explanationLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         explanationLabel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        explanationLabel.setText("<html>Amb aquesta aplicació, podràs actualitzar automàticament els jocs de plataformes com Steam o Epic de 'Ce' Trencada comunitat  i fins i tot afegir noves plataformes. <br>També podràs descarregar qualsevol traducció de 'Ce' trencada comunitat si configures un directori de jocs i a dins hi tens una carpeta amb exactament el mateix nom del joc que a la llista.");
+        explanationLabel.setText("<html>Amb aquesta aplicació, podràs actualitzar automàticament els jocs de plataformes com Steam o Epic de <b><i>'Ce' Trencada Comunitat</i></b>  i fins i tot afegir noves plataformes. <br>També podràs descarregar qualsevol traducció de 'Ce' trencada comunitat si configures un directori de jocs i a dins hi tens una carpeta amb exactament el mateix nom del joc que a la llista.");
         explanationLabel.setToolTipText(null);
         explanationLabel.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
         configLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        configLabel.setText("Abans que res, necessitem que configuris les plataformes que vols actualitzar.");
+        configLabel.setText("Abans que res, cal que configuris les plataformes que vols actualitzar.");
         configLabel.setToolTipText(null);
 
         configButton.setText("Configura");

@@ -8,11 +8,9 @@ import cat.prcetrencada.assemblycat.model.enums.Os;
 import cat.prcetrencada.assemblycat.model.enums.PersistanceTech;
 import static cat.prcetrencada.assemblycat.model.enums.PersistanceTech.JSON;
 import static cat.prcetrencada.assemblycat.presenter.os.OsPresenter.identifyOS;
-import cat.prcetrencada.assemblycat.view.Config;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import org.json.JSONArray;
@@ -46,10 +44,8 @@ public class ConfigPanelPresenter extends IOPresenter{
     
     /**
      * Converteix el valors de la taula de plataformes del DefaultTableModel
-     * a un array JSON.Si algun nom no esta definit, en genera un.
-     * Si algun directori no esta definit, llança un NullPointerException.
+     * a un array JSON.Si algun nom no esta definit, en genera un.Si algun directori no esta definit, llança un NullPointerException.
      * @param dt
-     * @param main
      * @return 
     **/
     public static JSONArray convertTableValuesToJSONArray(DefaultTableModel dt){
@@ -74,7 +70,7 @@ public class ConfigPanelPresenter extends IOPresenter{
                         if (valueAt == null || valueAt.isBlank()){
                             throw new NullPointerException("Directory is null");
                         }
-                        platform.put("directory", valueAt.toString());
+                        platform.put("directory", valueAt);
                     }
                 }
             }

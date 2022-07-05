@@ -5,6 +5,7 @@
 package cat.prcetrencada.assemblycat.view;
 
 import cat.prcetrencada.assemblycat.model.entitieslayer.Game;
+import cat.prcetrencada.assemblycat.presenter.Presenter;
 import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -51,6 +52,7 @@ public class Update extends javax.swing.JPanel implements Runnable {
         gameLabel = new javax.swing.JLabel();
         retryButton = new javax.swing.JButton();
         logLabel = new javax.swing.JLabel();
+        startButton = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 204));
         addPropertyChangeListener(new java.beans.PropertyChangeListener() {
@@ -69,7 +71,7 @@ public class Update extends javax.swing.JPanel implements Runnable {
         gameLabel.setText("GameName");
 
         retryButton.setVisible(false);
-        retryButton.setText("Reintentar");
+        retryButton.setText("Reintenta");
         retryButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 retryButtonMouseReleased(evt);
@@ -83,26 +85,36 @@ public class Update extends javax.swing.JPanel implements Runnable {
 
         logLabel.setText("");
 
+        startButton.setVisible(false);
+        startButton.setText("Torna");
+        startButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                startButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(introLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addGap(12, 12, 12)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(gameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(119, Short.MAX_VALUE))
-            .addComponent(introLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(exceptionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 668, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(logLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 668, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 668, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(retryButton, javax.swing.GroupLayout.Alignment.TRAILING)))
-                .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(exceptionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 668, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(startButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(retryButton))
+                    .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 674, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 20, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -112,15 +124,17 @@ public class Update extends javax.swing.JPanel implements Runnable {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(gameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 174, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 143, Short.MAX_VALUE)
                 .addComponent(exceptionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(logLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(retryButton)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(retryButton)
+                    .addComponent(startButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(14, 14, 14))
+                .addGap(48, 48, 48))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -131,13 +145,22 @@ public class Update extends javax.swing.JPanel implements Runnable {
         }
     }//GEN-LAST:event_formPropertyChange
 
-    private void retryButtonMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_retryButtonMouseReleased
-       run();
-    }//GEN-LAST:event_retryButtonMouseReleased
+    private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
+        Presenter.redirect(this.getParent(), new Start());
+    }//GEN-LAST:event_startButtonActionPerformed
 
     private void retryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_retryButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_retryButtonActionPerformed
+
+    private void retryButtonMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_retryButtonMouseReleased
+        retryButton.setVisible(false);
+        startButton.setVisible(false);
+        this.exceptionLabel.setText("");
+        jProgressBar1.setValue(0);
+        revalidate();
+        run();
+    }//GEN-LAST:event_retryButtonMouseReleased
 
 /**
  * Mètode de descàrrega de fitxers, que executa un nou thread separat del Thread Principal.
@@ -159,5 +182,6 @@ private CompletableFuture<Void> triggerGameUpdate(){
     public javax.swing.JProgressBar jProgressBar1;
     public javax.swing.JLabel logLabel;
     public javax.swing.JButton retryButton;
+    public javax.swing.JButton startButton;
     // End of variables declaration//GEN-END:variables
 }

@@ -9,7 +9,7 @@ package cat.prcetrencada.assemblycat.model.entitieslayer;
  * @author @Narx221 Projecte 'Ce' Trencada
  */
 public class Game extends EntityBase{
-    private String name;
+    private final String name;
     private String directory;
     private String downloadLink;
 

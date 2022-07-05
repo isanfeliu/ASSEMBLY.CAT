@@ -34,7 +34,7 @@
                              <mainClass>cat.prcetrencada.assemblycat.view.MainFrame</mainClass>
                         </manifest>
                     </archive>
-                    <debug>false</debug>
+                    <debug>true</debug>
                 </configuration>
             </plugin>
         </plugins>

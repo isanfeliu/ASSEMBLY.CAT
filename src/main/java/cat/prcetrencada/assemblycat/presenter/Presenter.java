@@ -60,7 +60,7 @@ public class Presenter{
      */
     public void openGameList(){
         try {
-            Desktop.getDesktop().browse(new URI("https://cetrencada.cat/json/llistat_ce_trencada_comunitat"));
+            Desktop.getDesktop().browse(new URI("https://cetrencada.cat/json/llistat_ce_trencada_comunitat.html"));
         } catch (IOException | URISyntaxException e1) {}
     }
     

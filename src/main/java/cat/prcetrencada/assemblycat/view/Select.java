@@ -39,7 +39,7 @@ public class Select extends javax.swing.JPanel {
         });
 
         //Set DefaultTableModel
-        javax.swing.table.DefaultTableModel tableModel = new javax.swing.table.DefaultTableModel(
+        javax.swing.table.DefaultTableModel model = new javax.swing.table.DefaultTableModel(
                 rawModel,
                 new String [] {
                     "Joc", "Directori", "Actualitzar"
@@ -49,12 +49,13 @@ public class Select extends javax.swing.JPanel {
                 java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
             };
             
+            @Override
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
         };
-        gameUpdateTable.setModel(tableModel);
-        this.tableModel=tableModel;
+        gameUpdateTable.setModel(model);
+        this.tableModel=model;
 
     }
 

@@ -7,18 +7,10 @@ package cat.prcetrencada.assemblycat.presenter;
 import cat.prcetrencada.assemblycat.model.entitieslayer.Game;
 import cat.prcetrencada.assemblycat.model.action.DownloadAction;
 import cat.prcetrencada.assemblycat.view.Update;
-import java.awt.Component;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.IntStream;
-import javax.swing.Action;
 import javax.swing.ActionMap;
 import javax.swing.JCheckBox;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JViewport;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
 /**
@@ -50,12 +42,12 @@ public class SelectionPresenter extends Presenter{
      * Prepara el diàleg de Update amb la llista de jocs seleccionats a descarregar.
      * @param gamesList
      * @param isAllCheckBoxSelected
-     * @param main
+     * @param model
      * @return 
      */
     public static Update buildTargetUpdateFrame(ArrayList<Game> gamesList, Boolean isAllCheckBoxSelected, TableModel model){
         Update updateFrame=null;
-        ArrayList<Game> games = new ArrayList<Game>();
+        ArrayList<Game> games = new ArrayList<>();
         if(!isAllCheckBoxSelected){
             for (int i = 0; i < gamesList.size(); i++) {
                 Boolean isSelected = (Boolean)model.getValueAt(i, 2);

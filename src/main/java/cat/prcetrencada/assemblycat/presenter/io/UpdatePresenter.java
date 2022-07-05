@@ -61,7 +61,8 @@ public class UpdatePresenter extends IOPresenter{
         
         //Comprovar que tots els fitxers estiguin descarregats.
         if(downloadResultFiles.size() < (selectedGames2Download.size() - malformedURLExceptionNo)){
-            main.retryButton.setVisible(true);
+            main.retryButton.setVisible(false);
+            main.startButton.setVisible(true);
             return;
         }
         //Instal·lar jocs descarregats.
@@ -70,10 +71,12 @@ public class UpdatePresenter extends IOPresenter{
                 installGame(file);
             } catch (IOException ex) {
                 JOptionPane.showMessageDialog(main.getParent(), "<html>Hi ha hagut un error durant la instal·lació dels fitxers.<br>Si us plau, torna-ho a intentar", "Error", 1);
-                main.retryButton.setVisible(true);
+                main.retryButton.setVisible(false);
+                main.startButton.setVisible(true);
             }
         }
-        JOptionPane.showMessageDialog(main.getParent(), "Totes les actualitzacions instal·lades i aplicades", "OK", 1);     
+        JOptionPane.showMessageDialog(main.getParent(), "Totes les actualitzacions han sigut instal·lades i aplicades", "OK", 1);  
+        main.startButton.setVisible(true);
         main.logLabel.setText("");
     }
     
@@ -138,7 +141,6 @@ public class UpdatePresenter extends IOPresenter{
                 //convertir link de drive a link de descàrrega directa! :D
                 //Utilitzant la API de drive.
                 URL url;
-                System.getenv("ASSEMBLY_CAT_GD");
                 String directDownloadLink= game.getDownloadLink();
                 if(directDownloadLink.contains("drive.google")){
                     StringBuilder driveApiRequestBuilder= new StringBuilder("https://www.googleapis.com/drive/v3/files/");
@@ -158,36 +160,45 @@ public class UpdatePresenter extends IOPresenter{
                 //Descarregar Joc
                 File outFile = new File(buildPath(url, game));
                 HttpURLConnection con=(HttpURLConnection)url.openConnection();
+                con.setConnectTimeout(3000);
+                con.setReadTimeout(3000);
                 FileOutputStream fos;
-                
-                if(outFile.exists() && Files.size(outFile.toPath()) < con.getContentLength()){
-                  con.setRequestProperty("Range", "bytes="+outFile.length()+"-");
-                  fos= new FileOutputStream(outFile,true);
+                int downloadLength= con.getContentLength();
+                if(outFile.exists() && Files.size(outFile.toPath()) < downloadLength){
+                  try{
+                    con.setRequestProperty("Range", "bytes=0-1024");
+                    fos= new FileOutputStream(outFile,true);
+                  }
+                  catch(Exception ex){
+                    con.disconnect();
+                    con=(HttpURLConnection)url.openConnection();
+                    con.setRequestProperty("Range", "bytes=0-1024");
+                    fos= new FileOutputStream(outFile,true);
+                  }
                 }else if(!outFile.exists()) {
                     outFile.createNewFile();
                     fos= new FileOutputStream(outFile);
                 }else{
                     return;
                 }
-                int downloadLength= con.getContentLength();
-                main.jProgressBar1.setMaximum(downloadLength);
-                BufferedOutputStream bout;
-                try (BufferedInputStream in = new BufferedInputStream(con.getInputStream())) {
-                    bout = new BufferedOutputStream(fos,con.getContentLength());
+                
+                main.jProgressBar1.setMaximum(downloadLength);             
+                try (
+                        BufferedInputStream in = new BufferedInputStream(con.getInputStream());
+                        BufferedOutputStream bout= new BufferedOutputStream(fos,con.getContentLength());          
+                    ) {
                     byte[] fileData = new byte[downloadLength];
                     double downloadedProgress=0.0;
                     int read;
                     //Escriure dades
                     main.logLabel.setText("Descarregant "+game.getName()+".");
-                    while ((read=in.read(fileData,0, downloadLength))>=0 ) {
-                        bout.write(fileData,0,read);
+                    while ((read=in.readNBytes(fileData,0, 1024))>=0 ) {
+                        bout.write(fileData,0,1024);
                         downloadedProgress+=read;
                         main.jProgressBar1.setValue((int)downloadedProgress);
                         main.revalidate();
                     }
                 }
-                bout.flush();
-                bout.close();
                 gameFetchedFiles.add(outFile);
                 main.logLabel.setText(game.getName()+" Descarregat");
     }
