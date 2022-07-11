@@ -72,6 +72,7 @@ public class Update extends javax.swing.JPanel implements Runnable {
 
         retryButton.setVisible(false);
         retryButton.setText("Reintenta");
+        retryButton.setToolTipText(null);
         retryButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 retryButtonMouseReleased(evt);
@@ -87,6 +88,7 @@ public class Update extends javax.swing.JPanel implements Runnable {
 
         startButton.setVisible(false);
         startButton.setText("Torna");
+        startButton.setToolTipText(null);
         startButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 startButtonActionPerformed(evt);
@@ -146,6 +148,7 @@ public class Update extends javax.swing.JPanel implements Runnable {
     }//GEN-LAST:event_formPropertyChange
 
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
+        Presenter.cleanDownloads();
         Presenter.redirect(this.getParent(), new Start());
     }//GEN-LAST:event_startButtonActionPerformed
 

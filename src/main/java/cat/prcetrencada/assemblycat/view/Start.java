@@ -155,6 +155,8 @@ public class Start extends JPanel {
                     .addComponent(configButton))
                 .addGap(23, 23, 23))
         );
+
+        startButton.getAccessibleContext().setAccessibleDescription("");
     }// </editor-fold>//GEN-END:initComponents
 
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed

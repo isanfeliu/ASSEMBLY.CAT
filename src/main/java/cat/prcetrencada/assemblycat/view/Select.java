@@ -101,7 +101,7 @@ public class Select extends javax.swing.JPanel {
         });
 
         updateButton.setText("Actualitza");
-        updateButton.setToolTipText("");
+        updateButton.setToolTipText(null);
         updateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 updateButtonActionPerformed(evt);

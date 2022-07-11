@@ -11,7 +11,6 @@ import java.awt.Color;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -75,9 +74,8 @@ public class UpdatePresenter extends IOPresenter{
                 main.startButton.setVisible(true);
             }
         }
-        JOptionPane.showMessageDialog(main.getParent(), "Totes les actualitzacions han sigut instal·lades i aplicades", "OK", 1);  
+        main.logLabel.setText("Totes les actualitzacions han sigut instal·lades i aplicades");
         main.startButton.setVisible(true);
-        main.logLabel.setText("");
     }
     
     /**
@@ -120,10 +118,6 @@ public class UpdatePresenter extends IOPresenter{
                 main.exceptionLabel.setText("<html>Error de Link, reportar a cetrencada:<br>"+ex.getMessage());
                 main.exceptionLabel.setForeground(Color.RED);
                 malformedURLExceptionCounter++;
-            } catch(IOException ex){
-                System.out.println("Error Runtime");
-                main.exceptionLabel.setText("<html>Error inesperat:<br>"+ex.getMessage());
-                main.exceptionLabel.setForeground(Color.RED);
             }catch(Exception ex){
                 System.out.println("Error Runtime");
                 main.exceptionLabel.setText("<html>Error inesperat:<br>"+ex.getMessage());
@@ -137,12 +131,13 @@ public class UpdatePresenter extends IOPresenter{
      * Descarrega el joc designat
      * @param game 
      */
-    private void downloadgame(Game game, ArrayList<File> gameFetchedFiles) throws MalformedURLException, FileNotFoundException, IOException {
-                //convertir link de drive a link de descàrrega directa! :D
-                //Utilitzant la API de drive.
+    private void downloadgame(Game game, ArrayList<File> gameFetchedFiles) throws IOException {
+                //convertir l'enllaç a un de descàrrega directa
+                main.logLabel.setText("Connectant al repositori (pot tardar una estona)...");
                 URL url;
                 String directDownloadLink= game.getDownloadLink();
                 if(directDownloadLink.contains("drive.google")){
+                    //Google Drive Api
                     StringBuilder driveApiRequestBuilder= new StringBuilder("https://www.googleapis.com/drive/v3/files/");
                     if(!directDownloadLink.contains("export=download")){
                         driveApiRequestBuilder.append(directDownloadLink.substring(32,65));
@@ -155,50 +150,42 @@ public class UpdatePresenter extends IOPresenter{
                     url= new URL(driveApiRequestBuilder.toString());
                 }
                 else{
+                    //Petició Directa
                     url = new URL(directDownloadLink);
                 }
                 //Descarregar Joc
                 File outFile = new File(buildPath(url, game));
                 HttpURLConnection con=(HttpURLConnection)url.openConnection();
-                con.setConnectTimeout(3000);
-                con.setReadTimeout(3000);
+               // con.setConnectTimeout(3 * 60000);
+                //con.setReadTimeout(3 * 60000);
                 FileOutputStream fos;
-                int downloadLength= con.getContentLength();
-                if(outFile.exists() && Files.size(outFile.toPath()) < downloadLength){
-                  try{
-                    con.setRequestProperty("Range", "bytes=0-1024");
-                    fos= new FileOutputStream(outFile,true);
-                  }
-                  catch(Exception ex){
-                    con.disconnect();
-                    con=(HttpURLConnection)url.openConnection();
-                    con.setRequestProperty("Range", "bytes=0-1024");
-                    fos= new FileOutputStream(outFile,true);
-                  }
+
+                if(outFile.exists() && Files.size(outFile.toPath()) < con.getContentLength()){
+                  con.setRequestProperty("Range", "bytes="+outFile.length()+"-");
+                  fos= new FileOutputStream(outFile,true);
                 }else if(!outFile.exists()) {
                     outFile.createNewFile();
                     fos= new FileOutputStream(outFile);
                 }else{
                     return;
                 }
-                
-                main.jProgressBar1.setMaximum(downloadLength);             
-                try (
-                        BufferedInputStream in = new BufferedInputStream(con.getInputStream());
-                        BufferedOutputStream bout= new BufferedOutputStream(fos,con.getContentLength());          
-                    ) {
-                    byte[] fileData = new byte[downloadLength];
-                    double downloadedProgress=0.0;
-                    int read;
-                    //Escriure dades
-                    main.logLabel.setText("Descarregant "+game.getName()+".");
-                    while ((read=in.readNBytes(fileData,0, 1024))>=0 ) {
-                        bout.write(fileData,0,1024);
-                        downloadedProgress+=read;
-                        main.jProgressBar1.setValue((int)downloadedProgress);
-                        main.revalidate();
-                    }
+                int downloadLength= con.getContentLength();
+                main.jProgressBar1.setMaximum(downloadLength);
+                BufferedInputStream in = new BufferedInputStream(con.getInputStream());
+                BufferedOutputStream bout = new BufferedOutputStream(fos,downloadLength);
+                byte[] fileData = new byte[downloadLength];
+                int downloadedProgress=0;
+                int read;
+                //Escriure dades
+                main.logLabel.setText("Descarregant "+game.getName()+".");
+                while ((read=in.read(fileData,0, downloadLength))>=0 ) {
+                    bout.write(fileData,0,read);
+                    downloadedProgress+=read;
+                    main.jProgressBar1.setValue(downloadedProgress);
+                    main.revalidate();
                 }
+                in.close();
+                bout.close();
                 gameFetchedFiles.add(outFile);
                 main.logLabel.setText(game.getName()+" Descarregat");
     }
