@@ -134,32 +134,35 @@ public class UpdatePresenter extends IOPresenter{
     private void downloadgame(Game game, ArrayList<File> gameFetchedFiles) throws IOException {
                 //convertir l'enllaç a un de descàrrega directa
                 main.logLabel.setText("Connectant al repositori (pot tardar una estona)...");
+                main.revalidate();
                 URL url;
-                String directDownloadLink= game.getDownloadLink();
-                if(directDownloadLink.contains("drive.google")){
-                    //Google Drive Api
+                String downloadLink= game.getDownloadLink();
+                if(downloadLink.contains("drive.google")){
+                    //Emprem Google Drive Api per fer l'enllaç de descàrrega directa
                     StringBuilder driveApiRequestBuilder= new StringBuilder("https://www.googleapis.com/drive/v3/files/");
-                    if(!directDownloadLink.contains("export=download")){
-                        driveApiRequestBuilder.append(directDownloadLink.substring(32,65));
+                    if(!downloadLink.contains("export=download")){
+                        driveApiRequestBuilder.append(downloadLink.substring(32,65));
                         driveApiRequestBuilder.append("?alt=media&key=").append(API_KEY);
                     }
-                    else if (directDownloadLink.contains("export=download")){
-                        driveApiRequestBuilder.append(directDownloadLink.substring(47,80));
+                    else if (downloadLink.contains("export=download")){
+                        driveApiRequestBuilder.append(downloadLink.substring(47,80));
                         driveApiRequestBuilder.append("?alt=media&key=").append(API_KEY);
                     }
+                    driveApiRequestBuilder.append("&fields=kind,items(title,characteristics/length)");
                     url= new URL(driveApiRequestBuilder.toString());
                 }
                 else{
-                    //Petició Directa
-                    url = new URL(directDownloadLink);
+                    //Petició directa
+                    url = new URL(downloadLink);
                 }
                 //Descarregar Joc
                 File outFile = new File(buildPath(url, game));
                 HttpURLConnection con=(HttpURLConnection)url.openConnection();
-               // con.setConnectTimeout(3 * 60000);
-                //con.setReadTimeout(3 * 60000);
+                con.setConnectTimeout(3 * 60000);
+                con.setReadTimeout(20000);
                 FileOutputStream fos;
-
+                con.setRequestMethod("GET");
+                
                 if(outFile.exists() && Files.size(outFile.toPath()) < con.getContentLength()){
                   con.setRequestProperty("Range", "bytes="+outFile.length()+"-");
                   fos= new FileOutputStream(outFile,true);
@@ -200,5 +203,4 @@ public class UpdatePresenter extends IOPresenter{
             unCompressFile(CompressType.RAR, file, main);
         }
     }
-    
 }

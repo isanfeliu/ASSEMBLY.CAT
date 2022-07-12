@@ -4,7 +4,7 @@
  */
 package cat.prcetrencada.assemblycat.presenter.service.http.impl;
 
-import cat.prcetrencada.assemblycat.presenter.service.http.api.IHttp;
+import cat.prcetrencada.assemblycat.model.iface.IHttp;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
